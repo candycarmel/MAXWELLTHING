@@ -8,15 +8,13 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene2: SKScene, SKPhysicsContactDelegate {
     
     var onJoystick = false
     
-    var touchLastFrame = CGPoint(x: 0, y: 0)
-    
-    var touchPos: CGPoint?
-    
     var jumpDown = false
+    
+    var diePlease = false
     
     var lastCheckpoint = CGPoint(x: -135, y: 155)
     
@@ -25,6 +23,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var onGround = false
     
     var origin: CGPoint!
+    
+    var touchLastFrame = CGPoint(x: 0, y: 0)
+    
+    var touchPos: CGPoint?
     
     var amountToMove = 0.0
      
@@ -46,14 +48,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         ball = self.childNode(withName: "ball") as! SKSpriteNode
         
-        lastCheckpoint = self.childNode(withName: "startpos")!.position
         
         grapplingThings.append(self.childNode(withName: "grapple-collider1") as! SKNode)
         grapplingThings.append(self.childNode(withName: "grapple-collider2") as! SKNode)
+        grapplingThings.append(self.childNode(withName: "grapple-collider3") as! SKNode)
         
         
         jumpPads.append(self.childNode(withName: "jump-pad1") as! SKNode)
         jumpPads.append(self.childNode(withName: "jump-pad2") as! SKNode)
+        jumpPads.append(self.childNode(withName: "jump-pad3") as! SKNode)
         joystickBack = SKSpriteNode(color: .gray, size: CGSize(width: 200, height: 200))
         joystickBack.alpha = 0.5
         joystickBack.zPosition = 10
@@ -68,14 +71,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         joystick.position = joystickPosition
         joystickBack.position = joystickPosition
         
+        // **Add the camera to the scene**
         self.camera = cam
         self.addChild(cam)
 
         origin = joystick.position
-        
-        ball.position = lastCheckpoint
 
-        // make joysticks children of the camera so they stay same on screen
+        // **Reparent the joystick to the camera**
         cam.addChild(joystick)
         cam.addChild(joystickBack)
         
@@ -113,6 +115,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "ground" || contact.bodyB.node?.name == "ground" {
             onGround = true
+        } else if contact.bodyA.node?.name == "danger" || contact.bodyB.node?.name == "danger" {
+            diePlease = true
         } else {
 //            dropping last character for "general" nodes that have multiple copies
             var nameA = contact.bodyA.node!.name!
@@ -140,10 +144,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 nextLevel.scaleMode = .aspectFill
                 let transition = SKTransition.fade(withDuration: 1.0)
                 self.view!.presentScene(nextLevel, transition: transition)
-                if let viewController = self.view?.window?.rootViewController as? GameViewController {
-                    viewController.curLevel = nextLevel
-                }
             }
+            
+            
         }
     }
     
@@ -216,6 +219,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
+        if diePlease {
+            diePlease = false
+            die()
+        }
         cam.position.x = ball.position.x
         cam.position.y = ball.position.y
         
@@ -324,7 +331,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         deathMessage.run(fadeOutAction)
         
-        ball.position = lastCheckpoint
+        ball.position.x = lastCheckpoint.x
+        ball.position.y = lastCheckpoint.y
+        
+        print(lastCheckpoint)
     }
     
     

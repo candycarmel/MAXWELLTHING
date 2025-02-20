@@ -12,6 +12,8 @@ import GameplayKit
 class GameViewController: UIViewController {
 
     var play: GameScene!
+    
+    var curLevel: SKScene?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +48,36 @@ class GameViewController: UIViewController {
         return true
     }
     @IBAction func jumpAction(_ sender: Any) {
-        play.ball.physicsBody?.velocity.dy = 800
+        if curLevel == nil
+        {
+            if play.onGround
+            {
+                play.ball.physicsBody?.velocity.dy = 800
+            }
+            play.jumpDown = false
+        } else if let scene = curLevel as? GameScene2 {
+            if scene.onGround
+            {
+                scene.ball.physicsBody?.velocity.dy = 800
+            }
+            scene.jumpDown = false
+        }
     }
+    @IBAction func downThing(_ sender: Any) {
+        if curLevel == nil
+        {
+            if play.onGround
+            {
+                return
+            }
+            play.jumpDown = true
+        } else if let scene = curLevel as? GameScene2 {
+            if scene.onGround
+            {
+                return
+            }
+            scene.jumpDown = true
+        }
+    }
+    
 }
