@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene2: SKScene, SKPhysicsContactDelegate {
+class GameScene3: SKScene, SKPhysicsContactDelegate {
     
     var onJoystick = false
     
@@ -50,16 +50,7 @@ class GameScene2: SKScene, SKPhysicsContactDelegate {
         
         
         grapplingThings.append(self.childNode(withName: "grapple-collider1") as! SKNode)
-        grapplingThings.append(self.childNode(withName: "grapple-collider2") as! SKNode)
-        grapplingThings.append(self.childNode(withName: "grapple-collider3") as! SKNode)
         
-        
-        jumpPads.append(self.childNode(withName: "jump-pad1") as! SKNode)
-        jumpPads.append(self.childNode(withName: "jump-pad2") as! SKNode)
-        jumpPads.append(self.childNode(withName: "jump-pad3") as! SKNode)
-        jumpPads.append(self.childNode(withName: "jump-pad4") as! SKNode)
-        jumpPads.append(self.childNode(withName: "jump-pad5") as! SKNode)
-        jumpPads.append(self.childNode(withName: "jump-pad6") as! SKNode)
         joystickBack = SKSpriteNode(color: .gray, size: CGSize(width: 200, height: 200))
         joystickBack.alpha = 0.5
         joystickBack.zPosition = 10

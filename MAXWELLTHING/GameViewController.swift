@@ -61,6 +61,13 @@ class GameViewController: UIViewController {
                 scene.ball.physicsBody?.velocity.dy = 800
             }
             scene.jumpDown = false
+        } else if let scene = curLevel as? GameScene3 {
+            print("is jumpy 3 :D")
+            if scene.onGround
+            {
+                scene.ball.physicsBody?.velocity.dy = 800
+            }
+            scene.jumpDown = false
         }
     }
     @IBAction func downThing(_ sender: Any) {
@@ -72,6 +79,12 @@ class GameViewController: UIViewController {
             }
             play.jumpDown = true
         } else if let scene = curLevel as? GameScene2 {
+            if scene.onGround
+            {
+                return
+            }
+            scene.jumpDown = true
+        } else if let scene = curLevel as? GameScene3 {
             if scene.onGround
             {
                 return

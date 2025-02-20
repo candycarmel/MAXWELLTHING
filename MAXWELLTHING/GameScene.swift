@@ -162,7 +162,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nameB = String(nameB.dropLast())
             
             if (nameA == "grapple-collider" && nameB == "bal") || (nameB == "grapple-collider" && nameA == "bal") {
-                currentGrapple = nil
+                if currentGrapple == ((nameA == "grapple-collider") ? contact.bodyA.node! : contact.bodyB.node!) {
+                    currentGrapple = nil
+                }
                 return
             }
         }

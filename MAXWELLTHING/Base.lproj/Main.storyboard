@@ -19,9 +19,12 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7hl-Kn-ktF">
                                 <rect key="frame" x="539" y="252" width="89" height="71"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
                                 <color key="tintColor" systemColor="systemGrayColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="arrowshape.up.fill" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="filled" image="arrowshape.up.fill" catalog="system">
+                                    <color key="baseBackgroundColor" systemColor="systemGrayColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="downThing:" destination="BV1-FR-VrT" eventType="touchDown" id="ayY-6D-2Cc"/>
                                     <action selector="jumpAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="MZJ-U4-hF4"/>
